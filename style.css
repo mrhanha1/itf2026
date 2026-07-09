@@ -1,0 +1,247 @@
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   KHUNG ỨNG DỤNG — nền là 1 tấm ảnh, mọi thứ khác đè lên theo %
+   ============================================================ */
+.app-frame {
+  position: relative;
+  width: 100%;
+  max-width: 630px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.app-bg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   STAGE MENU — 5 BUTTON HÌNH ẢNH, đè lên ảnh nền theo % (vị trí do
+   designer bố trí sẵn trong ảnh nền, chỉnh 5 khối .stage-btn bên
+   dưới cho khớp toạ độ thật)
+   ============================================================ */
+.stage-menu {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.stage-btn {
+  position: absolute;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  background: transparent;
+}
+
+.stage-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 10%;
+}
+
+/* Toạ độ 5 button theo % (PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật) */
+.stage-btn-1 { top: 14.5%;  left: 14%; width: 22%; height: 17%; }
+.stage-btn-2 { top: 14.5%;  left: 39%; width: 22%; height: 17%; }
+.stage-btn-3 { top: 14.5%;  left: 64%; width: 22%; height: 17%; }
+.stage-btn-4 { top: 33%;  left: 26.5%; width: 22%; height: 17%; }
+.stage-btn-5 { top: 33%;  left: 51.5%; width: 22%; height: 17%; }
+
+/* Animation khi bấm: scale up rồi fade out trước khi chuyển trang */
+.stage-btn.activating {
+  animation: btn-scale-fade 0.55s ease forwards;
+  z-index: 5;
+}
+
+@keyframes btn-scale-fade {
+  0%   { transform: scale(1);    opacity: 1; }
+  40%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* ============================================================
+   HÀNG 3 NHÃN HÀNG — đè lên ảnh nền theo %, có glow chạy loop
+   ============================================================ */
+.brand-row {
+  position: absolute;
+  left: 6%;
+  width: 88%;
+  top: 63%;   /* PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật */
+  height: 10%; /* PLACEHOLDER */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 2;
+}
+
+.brand-item {
+  position: relative;
+  flex: 0 0 auto;   /* không ép giãn - width tự co theo tỉ lệ ảnh */
+  height: 50%;
+  width: auto;
+  border-radius: 20%;
+  overflow: hidden;
+  padding: 5px; /* chỗ cho viền glow */
+}
+
+.brand-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10%;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    #fff 12%,
+    transparent 24%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: glow-rotate 2.8s linear infinite;
+  pointer-events: none;
+  border-radius: 10%;
+}
+
+@keyframes glow-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.brand-item img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  border-radius: 10%;
+  z-index: 1;
+}
+
+/* ============================================================
+   LỚP CHUYỂN TRANG (overlay fade khi điều hướng)
+   ============================================================ */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  /* Dùng màu nền của app (#1a1a1a) thay vì trắng, để lúc chuyển sang
+     trang stage (đang load ảnh) không bị "chớp trắng" — người dùng
+     chỉ thấy 1 màu nền liền mạch cho tới khi ảnh trang mới sẵn sàng. */
+  background: #1a1a1a;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+  transition: opacity 0.4s ease;
+}
+
+.transition-overlay.active {
+  opacity: 1;
+}
+
+/* ============================================================
+   SUBPAGE VIEWER (pages/*.html) — ảnh full-page + vùng bấm trong suốt
+   ============================================================ */
+.viewer-frame {
+  position: relative;
+  width: 100%;
+  max-width: 630px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+
+.viewer-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Lớp overlay dùng để crossfade THẬT giữa ảnh cũ và ảnh mới:
+   - nằm chồng đúng vị trí lớp ảnh chính (position: absolute, inset: 0)
+   - mặc định opacity: 0 (vô hình, ảnh chính vẫn hiển thị bình thường)
+   - JS chỉ gán src SAU KHI ảnh mới đã load xong, rồi mới bật .is-active
+     để 2 lớp fade chồng lên nhau, không có lúc nào cả 2 lớp cùng trống. */
+.viewer-image-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.viewer-image-overlay.is-active {
+  opacity: 1;
+}
+
+/* Lớp phủ màu nền app, dùng khi trang con vừa được mở (chờ ảnh đầu
+   tiên load xong mới fade ra) và khi rời trang con để về index.html
+   (fade vào che kín trước khi điều hướng) — thay cho việc để lộ nền
+   trắng mặc định của trình duyệt trong lúc tải ảnh/chuyển trang. */
+.page-fade-overlay {
+  position: absolute;
+  inset: 0;
+  background: #1a1a1a;
+  opacity: 0;
+  z-index: 20;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.page-fade-overlay.active {
+  opacity: 1;
+}
+
+/* Vùng bấm trong suốt, định vị theo % để khớp mọi kích thước màn hình */
+.hit-area {
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* 3 số bước ở trên (mỗi số chiếm 1 dải ngang bằng nhau) */
+.hit-step {
+  top: 6%;
+  height: 8%;
+  width: 22%;
+}
+.hit-step-1 { left: 14%; }
+.hit-step-2 { left: 39%; }
+.hit-step-3 { left: 64%; }
+
+/* Mũi tên trái / phải (hoặc home) ở thanh dưới cùng */
+.hit-nav {
+  bottom: 0;
+  height: 20%;
+  width: 22%;
+}
+.hit-prev { left: 0; }
+.hit-next { right: 0; }

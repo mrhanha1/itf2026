@@ -1,0 +1,46 @@
+CẤU TRÚC HỆ THỐNG
+==================
+
+App/
+├── index.html          Trang menu chính (5 button giai đoạn + 3 logo nhãn hàng)
+├── style.css           Toàn bộ giao diện + animation (menu, glow, fade)
+├── data.js             NƠI SỬA NỘI DUNG: ảnh, tiêu đề, link trang, subPages
+├── script.js           Engine render menu chính (đọc data.js, không cần sửa)
+├── images/             Toàn bộ hình ảnh (button, logo, ảnh subpage)
+└── pages/
+    ├── page-viewer.js  Engine hiển thị trang con (đọc data.js, không cần sửa)
+    ├── truoc-mang-thai.html
+    ├── mang-thai.html
+    ├── sau-sinh.html
+    ├── phau-thuat-phu-khoa.html
+    └── tien-man-kinh.html
+
+
+NGUYÊN TẮC CHUNG
+================
+- Nội dung (ảnh, tiêu đề, đường dẫn) tách riêng trong data.js.
+- Logic hiển thị (script.js, page-viewer.js) không đổi khi thêm/sửa nội dung.
+- Muốn thêm giai đoạn mới / trang mới → chỉ thêm object trong data.js.
+
+
+LUỒNG HOẠT ĐỘNG
+===============
+
+1. Mở index.html
+   → script.js đọc stagesData + brandsData trong data.js
+   → Vẽ 5 button giai đoạn + 3 logo nhãn hàng
+
+2. Bấm 1 trong 5 button giai đoạn
+   → Overlay fade trắng
+   → Điều hướng sang pages/<stage>.html tương ứng (lấy từ pageUrl)
+
+3. Trong trang con (pages/<stage>.html)
+   → page-viewer.js đọc subPages (3 ảnh: Mục tiêu / Khuyến cáo / Giải pháp) của stage đó
+   → Hiển thị ảnh subpage hiện tại, đè các vùng bấm trong suốt lên ảnh:
+       • 3 vùng số (1/2/3) ở trên  → nhảy thẳng tới subpage tương ứng
+       • Vùng mũi tên trái          → lùi 1 subpage, nếu đang ở subpage 1 thì về index.html
+       • Vùng mũi tên phải/home     → tiến 1 subpage, nếu đang ở subpage 3 (cuối) thì về index.html
+   → Mỗi lần chuyển subpage: ảnh fade out rồi fade in ảnh mới
+
+4. Quay lại menu chính
+   → Từ subpage 1 (mũi tên trái) hoặc subpage 3 (mũi tên phải/home) → về index.html

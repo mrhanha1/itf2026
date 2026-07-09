@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ITF Summit 2026</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-frame">
+
+    <!-- ẢNH NỀN (toàn bộ text/logo do designer đặt cứng trong ảnh này) -->
+    <img id="main-bg" class="app-bg" src="" alt="background">
+
+    <!-- MAIN MENU: 5 BUTTON GIAI ĐOẠN (render bằng JS từ stagesData) -->
+    <main id="stage-menu" class="stage-menu"></main>
+
+    <!-- 3 NHÃN HÀNG (render bằng JS từ brandsData) -->
+    <div id="brand-row" class="brand-row"></div>
+
+  </div>
+
+  <!-- LỚP CHUYỂN TRANG (hiệu ứng scale up + fade out) -->
+  <div id="transition-overlay" class="transition-overlay"></div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
