@@ -53,9 +53,20 @@ function handleStageClick(stage, btnEl) {
   }, ANIMATION_DURATION);
 }
 
-// ---- GÁN ẢNH NỀN ----
+// ---- GÁN ẢNH NỀN (preload xong mới fade overlay ra, tránh chớp trắng) ----
 function renderBackground() {
-  document.getElementById("main-bg").src = mainBackground;
+  const bgEl = document.getElementById("main-bg");
+  const overlay = document.getElementById("transition-overlay");
+
+  const im = new Image();
+  im.onload = () => {
+    bgEl.src = mainBackground;
+    // ép reflow rồi fade lớp phủ biến mất, lộ ảnh nền ra
+    requestAnimationFrame(() => {
+      overlay.classList.remove("active");
+    });
+  };
+  im.src = mainBackground;
 }
 
 // ---- KHỞI ĐỘNG ----

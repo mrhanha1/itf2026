@@ -21,8 +21,10 @@
 
   </div>
 
-  <!-- LỚP CHUYỂN TRANG (hiệu ứng scale up + fade out) -->
-  <div id="transition-overlay" class="transition-overlay"></div>
+  <!-- LỚP CHUYỂN TRANG (hiệu ứng scale up + fade out)
+       active ngay từ đầu để che kín trong lúc chờ ảnh nền load xong,
+       tránh chớp trắng lúc mới vào trang -->
+  <div id="transition-overlay" class="transition-overlay active"></div>
 
   <script src="data.js"></script>
   <script src="script.js"></script>
