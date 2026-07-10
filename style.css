@@ -103,7 +103,7 @@ body {
 .brand-item {
   position: relative;
   flex: 0 0 auto;   /* không ép giãn - width tự co theo tỉ lệ ảnh */
-  height: 47%;
+  height: 45%;
   width: auto;
   border-radius: 12px;
   overflow: visible;
