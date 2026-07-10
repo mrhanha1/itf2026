@@ -46,7 +46,7 @@
   function preloadImage(src) {
     return new Promise((resolve, reject) => {
       const im = new Image();
-      im.onload = () => resolve(src);
+      im.onload = () => resolve(im);
       im.onerror = reject;
       im.src = src;
     });
@@ -139,8 +139,8 @@
 
   /* ---- Khởi động: đặt ảnh đầu tiên, chờ load xong rồi fade lớp phủ ra ---- */
   const firstSrc = "../" + subPages[current];
-  preloadImage(firstSrc).then(() => {
-    imgBase.src = firstSrc;
+  preloadImage(firstSrc).then((im) => {
+    imgBase.src = im.src;
     // ép reflow rồi fade lớp phủ (che bằng màu nền) biến mất, lộ ảnh ra
     requestAnimationFrame(() => {
       pageOverlay.classList.remove("active");

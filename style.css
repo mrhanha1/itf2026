@@ -147,9 +147,6 @@ body {
 .transition-overlay {
   position: fixed;
   inset: 0;
-  /* Dùng màu nền của app (#1a1a1a) thay vì trắng, để lúc chuyển sang
-     trang stage (đang load ảnh) không bị "chớp trắng" — người dùng
-     chỉ thấy 1 màu nền liền mạch cho tới khi ảnh trang mới sẵn sàng. */
   background: #1a1a1a;
   opacity: 0;
   pointer-events: none;
@@ -168,7 +165,6 @@ body {
   position: relative;
   width: 100%;
   max-width: 630px;
-  min-height: 100vh;
   margin: 0 auto;
   background: #1a1a1a;
   overflow: hidden;
