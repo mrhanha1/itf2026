@@ -26,33 +26,37 @@ function renderBrands() {
   const container = document.getElementById("brand-row");
   container.innerHTML = "";
 
-  brandsData.forEach(brand => {
+  brandsData.forEach((brand, index) => {
     const item = document.createElement("div");
     item.className = "brand-item";
     item.innerHTML = `<img src="${brand.image}" alt="${brand.id}">`;
-    item.appendChild(createBrandGlowSVG());
+    item.appendChild(createBrandGlowSVG(index));
     container.appendChild(item);
   });
 }
+
+// Màu riêng cho từng đường glow (theo thứ tự brandsData)
+const brandGlowColors = ["#33ff5c", "#0077ff", "#ff78be"]; // PLACEHOLDER - đổi màu tại đây
 
 // ---- TẠO SVG GLOW CHẠY VIỀN CHO 1 BRAND ITEM ----
 // Dùng rect + stroke-dasharray/dashoffset thay cho conic-gradient
 // để đường sáng có đầu đậm - đuôi fade, chạy đều theo chu vi thực,
 // không bị dồn cục ở các góc bo tròn.
-function createBrandGlowSVG() {
+function createBrandGlowSVG(index) {
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
   svg.setAttribute("class", "brand-glow-svg");
   svg.setAttribute("preserveAspectRatio", "none");
 
+  const color = brandGlowColors[index % brandGlowColors.length];
   const defs = document.createElementNS(svgNS, "defs");
-  const gradId = "brand-glow-gradient";
+  const gradId = `brand-glow-gradient-${index}`;
   const grad = document.createElementNS(svgNS, "linearGradient");
   grad.setAttribute("id", gradId);
   grad.innerHTML = `
-    <stop offset="0%" stop-color="#fff" stop-opacity="0" />
-    <stop offset="85%" stop-color="#fff" stop-opacity="0.9" />
-    <stop offset="100%" stop-color="#fff" stop-opacity="1" />
+    <stop offset="0%" stop-color="${color}" stop-opacity="0" />
+    <stop offset="85%" stop-color="${color}" stop-opacity="0.9" />
+    <stop offset="100%" stop-color="${color}" stop-opacity="1" />
   `;
   defs.appendChild(grad);
   svg.appendChild(defs);
@@ -60,12 +64,13 @@ function createBrandGlowSVG() {
   const rect = document.createElementNS(svgNS, "rect");
   rect.setAttribute("x", "1");
   rect.setAttribute("y", "1");
-  rect.setAttribute("width", "calc(100% - 5px)");
-  rect.setAttribute("height", "calc(100% - 5px)");
-  rect.setAttribute("rx", "10px");
-  rect.setAttribute("ry", "10px");
+  rect.setAttribute("width", "calc(100% - 3px)");
+  rect.setAttribute("height", "calc(100% - 3px)");
+  rect.setAttribute("rx", "15px");
+  rect.setAttribute("ry", "15px");
   rect.setAttribute("pathLength", "100");
   rect.setAttribute("stroke-dasharray", "18 82"); // đoạn sáng ngắn ~18% chu vi, còn lại trong suốt
+  rect.style.stroke = `url(#${gradId})`;
   svg.appendChild(rect);
 
   return svg;

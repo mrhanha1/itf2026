@@ -103,9 +103,9 @@ body {
 .brand-item {
   position: relative;
   flex: 0 0 auto;   /* không ép giãn - width tự co theo tỉ lệ ảnh */
-  height: 50%;
+  height: 47%;
   width: auto;
-  border-radius: 20%;
+  border-radius: 12px;
   overflow: visible;
   padding: 5px; /* chỗ cho viền glow */
 }
@@ -126,7 +126,6 @@ body {
 
 .brand-glow-svg rect {
   fill: none;
-  stroke: url(#brand-glow-gradient);
   stroke-width: 2;
   stroke-linecap: round;
   animation: glow-dash 2.8s linear infinite;
