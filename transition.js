@@ -1,9 +1,3 @@
-/* ============================================================
-   TRANSITION.JS — dùng chung cho crossfade ảnh
-   Dùng cho: main-bg -> subpage đầu tiên, giữa các subpage,
-   subpage cuối/đầu -> main-bg. Không cần sửa file này.
-   ============================================================ */
-
 function preloadImage(src) {
   return new Promise((resolve, reject) => {
     const im = new Image();
@@ -13,9 +7,6 @@ function preloadImage(src) {
   });
 }
 
-/* Crossfade thật giữa ảnh hiện tại (imgBase) và ảnh mới (imgOverlay).
-   imgOverlay phải có class "viewer-image-overlay" (đã có transition
-   opacity trong CSS) và nằm ngay sau imgBase trong DOM. */
 function crossfadeTo(imgBase, imgOverlay, src) {
   return preloadImage(src).then(() => {
     imgOverlay.src = src;

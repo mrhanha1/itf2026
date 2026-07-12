@@ -1,6 +1,3 @@
-/* ============================================================
-   RESET & BASE
-   ============================================================ */
 * {
   margin: 0;
   padding: 0;
@@ -16,10 +13,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ============================================================
-   PUSH WRAPPER — chứa app-frame + viewer-frame chồng lên nhau,
-   dùng transform: translateX để trượt qua lại khi chuyển stage
-   ============================================================ */
 .push-wrapper {
   position: relative;
   width: 100%;
@@ -37,9 +30,6 @@ body {
   will-change: transform;
 }
 
-/* ============================================================
-   KHUNG ỨNG DỤNG — nền là 1 tấm ảnh, mọi thứ khác đè lên theo %
-   ============================================================ */
 .app-frame {
   width: 100%;
   overflow: hidden;
@@ -55,11 +45,6 @@ body {
   object-fit: contain;
 }
 
-/* ============================================================
-   STAGE MENU — 5 BUTTON HÌNH ẢNH, đè lên ảnh nền theo % (vị trí do
-   designer bố trí sẵn trong ảnh nền, chỉnh 5 khối .stage-btn bên
-   dưới cho khớp toạ độ thật)
-   ============================================================ */
 .stage-menu {
   position: absolute;
   inset: 0;
@@ -83,14 +68,12 @@ body {
   border-radius: 20px;
 }
 
-/* Toạ độ 5 button theo % (PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật) */
 .stage-btn-1 { top: 23%;  left: 15%; width: 22%; height: 17%; }
 .stage-btn-2 { top: 23%;  left: 39%; width: 22%; height: 17%; }
 .stage-btn-3 { top: 23%;  left: 63%; width: 22%; height: 17%; }
 .stage-btn-4 { top: 39%;  left: 26.5%; width: 22%; height: 17%; }
 .stage-btn-5 { top: 39%;  left: 51.5%; width: 22%; height: 17%; }
 
-/* Animation khi bấm: scale up rồi fade out trước khi chuyển trang */
 .stage-btn.activating {
   animation: btn-scale-fade 0.55s ease forwards;
   z-index: 5;
@@ -102,9 +85,6 @@ body {
   100% { transform: scale(1.35); opacity: 0; }
 }
 
-/* ============================================================
-   HÀNG 3 NHÃN HÀNG — đè lên ảnh nền theo %, có glow chạy loop
-   ============================================================ */
 .brand-row {
   position: absolute;
   left: 6%;
@@ -130,11 +110,6 @@ body {
   margin: auto;
 }
 
-/* Viền glow chạy dùng SVG (rect bo góc) chèn bằng JS trong script.js.
-   stroke-dasharray tạo 1 đoạn sáng ngắn có đầu đậm - đuôi fade,
-   stroke-dashoffset animate liên tục để đoạn sáng chạy đều theo
-   chu vi thực (pathLength), không bị dồn cục ở góc bo tròn như
-   cách dùng conic-gradient trước đây. */
 .brand-glow-svg {
   position: absolute;
   inset: 0;
@@ -165,15 +140,9 @@ body {
   z-index: 1;
 }
 
-/* ============================================================
-   LỚP CHUYỂN TRANG (overlay fade khi điều hướng)
-   ============================================================ */
 .transition-overlay {
   position: fixed;
   inset: 0;
-  /* Dùng màu nền của app (#1a1a1a) thay vì trắng, để lúc chuyển sang
-     trang stage (đang load ảnh) không bị "chớp trắng" — người dùng
-     chỉ thấy 1 màu nền liền mạch cho tới khi ảnh trang mới sẵn sàng. */
   background: #1a1a1a;
   opacity: 0;
   pointer-events: none;
@@ -185,20 +154,12 @@ body {
   opacity: 1;
 }
 
-/* ============================================================
-   SUBPAGE VIEWER (pages/*.html) — ảnh full-page + vùng bấm trong suốt
-   ============================================================ */
 .viewer-frame {
   width: 100%;
   background: #1a1a1a;
   overflow: hidden;
 }
 
-/* Vị trí trượt: mặc định (không class) = đang hiện, translateX(0).
-   .push-right = nằm/đi ra bên phải (viewer-frame khi chưa vào, hoặc
-   app-frame khi bị đẩy ra lúc rời stage).
-   .push-left  = nằm/đi ra bên trái (app-frame khi bị đẩy ra lúc vào
-   stage, hoặc viewer-frame khi bị đẩy ra lúc rời stage). */
 .push-right { transform: translateX(100%); }
 .push-left  { transform: translateX(-100%); }
 
@@ -211,11 +172,6 @@ body {
   object-fit: contain;
 }
 
-/* Lớp overlay dùng để crossfade THẬT giữa ảnh cũ và ảnh mới:
-   - nằm chồng đúng vị trí lớp ảnh chính (position: absolute, inset: 0)
-   - mặc định opacity: 0 (vô hình, ảnh chính vẫn hiển thị bình thường)
-   - JS chỉ gán src SAU KHI ảnh mới đã load xong, rồi mới bật .is-active
-     để 2 lớp fade chồng lên nhau, không có lúc nào cả 2 lớp cùng trống. */
 .viewer-image-overlay {
   position: absolute;
   inset: 0;
@@ -231,10 +187,6 @@ body {
   opacity: 1;
 }
 
-/* Lớp phủ màu nền app, dùng khi trang con vừa được mở (chờ ảnh đầu
-   tiên load xong mới fade ra) và khi rời trang con để về index.html
-   (fade vào che kín trước khi điều hướng) — thay cho việc để lộ nền
-   trắng mặc định của trình duyệt trong lúc tải ảnh/chuyển trang. */
 .page-fade-overlay {
   position: absolute;
   inset: 0;
@@ -249,7 +201,6 @@ body {
   opacity: 1;
 }
 
-/* Vùng bấm trong suốt, định vị theo % để khớp mọi kích thước màn hình */
 .hit-area {
   position: absolute;
   background: transparent;
@@ -258,7 +209,6 @@ body {
   padding: 0;
 }
 
-/* 3 số bước ở trên (mỗi số chiếm 1 dải ngang bằng nhau) */
 .hit-step {
   top: 6%;
   height: 15%;
@@ -268,7 +218,6 @@ body {
 .hit-step-2 { left: 39%; }
 .hit-step-3 { left: 64%; }
 
-/* Mũi tên trái / phải (hoặc home) ở thanh dưới cùng */
 .hit-nav {
   bottom: 0;
   height: 20%;
