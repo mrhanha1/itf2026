@@ -26,8 +26,8 @@ body {
 .push-wrapper .viewer-frame {
   position: absolute;
   inset: 0;
-  transition: transform 0.5s ease;
-  will-change: transform;
+  transition: opacity 0.5s ease;
+  will-change: opacity;
 }
 
 .app-frame {
@@ -160,8 +160,11 @@ body {
   overflow: hidden;
 }
 
-.push-right { transform: translateX(100%); }
-.push-left  { transform: translateX(-100%); }
+.push-right,
+.push-left {
+  opacity: 0;
+  pointer-events: none;
+}
 
 .viewer-image {  
   position: absolute;
@@ -170,21 +173,12 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: transform 0.4s ease;
 }
 
 .viewer-image-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  transform: translateX(100%);
   pointer-events: none;
-}
-
-.viewer-image-overlay.is-active {
-  opacity: 1;
 }
 
 .page-fade-overlay {

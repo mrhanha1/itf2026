@@ -18,7 +18,8 @@ function initViewer(stage) {
   function goTo(index) {
     if (index === current || isTransitioning) return;
     isTransitioning = true;
-    crossfadeTo(imgBase, imgOverlay, subPages[index]).then(() => {
+    const direction = index > current ? "next" : "prev";
+    pushTo(imgBase, imgOverlay, subPages[index], direction).then(() => {
       current = index;
       isTransitioning = false;
     });
