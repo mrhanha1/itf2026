@@ -17,13 +17,31 @@ body {
 }
 
 /* ============================================================
+   PUSH WRAPPER — chứa app-frame + viewer-frame chồng lên nhau,
+   dùng transform: translateX để trượt qua lại khi chuyển stage
+   ============================================================ */
+.push-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.push-wrapper .app-frame,
+.push-wrapper .viewer-frame {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s ease;
+  will-change: transform;
+}
+
+/* ============================================================
    KHUNG ỨNG DỤNG — nền là 1 tấm ảnh, mọi thứ khác đè lên theo %
    ============================================================ */
 .app-frame {
-  position: relative;
   width: 100%;
-  max-width: 630px;
-  margin: 0 auto;
   overflow: hidden;
 }
 
@@ -58,17 +76,17 @@ body {
 }
 
 .stage-btn img {
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   object-fit: cover;
   display: block;
-  border-radius: 10%;
+  border-radius: 20px;
 }
 
 /* Toạ độ 5 button theo % (PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật) */
-.stage-btn-1 { top: 20.5%;  left: 14%; width: 22%; height: 17%; }
-.stage-btn-2 { top: 20.5%;  left: 39%; width: 22%; height: 17%; }
-.stage-btn-3 { top: 20.5%;  left: 64%; width: 22%; height: 17%; }
+.stage-btn-1 { top: 23%;  left: 15%; width: 22%; height: 17%; }
+.stage-btn-2 { top: 23%;  left: 39%; width: 22%; height: 17%; }
+.stage-btn-3 { top: 23%;  left: 63%; width: 22%; height: 17%; }
 .stage-btn-4 { top: 39%;  left: 26.5%; width: 22%; height: 17%; }
 .stage-btn-5 { top: 39%;  left: 51.5%; width: 22%; height: 17%; }
 
@@ -92,12 +110,13 @@ body {
   left: 6%;
   width: 88%;
   bottom: 22%;   /* PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật */
-  height: 10%; /* PLACEHOLDER */
+  height: 9%; /* PLACEHOLDER */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   z-index: 2;
+  margin: auto;
 }
 
 .brand-item {
@@ -108,6 +127,7 @@ body {
   border-radius: 12px;
   overflow: visible;
   padding: 5px; /* chỗ cho viền glow */
+  margin: auto;
 }
 
 /* Viền glow chạy dùng SVG (rect bo góc) chèn bằng JS trong script.js.
@@ -169,15 +189,18 @@ body {
    SUBPAGE VIEWER (pages/*.html) — ảnh full-page + vùng bấm trong suốt
    ============================================================ */
 .viewer-frame {
-  position: relative;
   width: 100%;
-  max-width: 630px;
-  min-height: 100vh;
-  margin: 0 auto;
   background: #1a1a1a;
   overflow: hidden;
-  aspect-ratio: 9/16; /* placeholder, JS sẽ set lại theo ảnh thật */
 }
+
+/* Vị trí trượt: mặc định (không class) = đang hiện, translateX(0).
+   .push-right = nằm/đi ra bên phải (viewer-frame khi chưa vào, hoặc
+   app-frame khi bị đẩy ra lúc rời stage).
+   .push-left  = nằm/đi ra bên trái (app-frame khi bị đẩy ra lúc vào
+   stage, hoặc viewer-frame khi bị đẩy ra lúc rời stage). */
+.push-right { transform: translateX(100%); }
+.push-left  { transform: translateX(-100%); }
 
 .viewer-image {  
   position: absolute;

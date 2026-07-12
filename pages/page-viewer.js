@@ -21,10 +21,13 @@
      giữa lúc chuyển trang.
    ============================================================ */
 
-(function () {
-  const frame = document.querySelector(".viewer-frame");
-  const stageId = frame.dataset.stage;
-  const stage = stagesData.find(s => s.id === stageId);
+/* initViewer(stage): khởi động/khởi động lại viewer cho 1 stage.
+   Gọi từ script.js (handleStageClick) khi bấm vào 1 stage.
+   Ảnh đầu tiên đã được gán sẵn vào #viewer-image trước khi hàm này
+   chạy (xem script.js), nên ở đây không cần preload/fade gì thêm
+   lúc khởi động - không có lớp phủ đen/trắng nào cả. */
+function initViewer(stage) {
+  const frame = document.getElementById("viewer-frame");
   const subPages = stage.subPages;
 
   let current = 0;
@@ -33,76 +36,42 @@
   const imgBase = document.getElementById("viewer-image");
 
   /* ---- Lớp overlay dùng cho crossfade giữa các subpage ---- */
-  const imgOverlay = document.createElement("img");
-  imgOverlay.id = "viewer-image-overlay";
-  imgOverlay.className = "viewer-image viewer-image-overlay";
-  imgBase.insertAdjacentElement("afterend", imgOverlay);
-
-  /* ---- Lớp phủ dùng khi vào trang / thoát trang (không phải trắng) ---- */
-  const pageOverlay = document.createElement("div");
-  pageOverlay.className = "page-fade-overlay active";
-  frame.appendChild(pageOverlay);
-
-  function preloadImage(src) {
-    return new Promise((resolve, reject) => {
-      const im = new Image();
-      im.onload = () => resolve(im);
-      im.onerror = reject;
-      im.src = src;
-    });
-  }
-
-  /* Crossfade thật giữa ảnh hiện tại (lớp dưới) và ảnh mới (lớp trên) */
-  function crossfadeTo(src) {
-    return preloadImage(src).then(() => {
-      imgOverlay.src = src;
-      // ép reflow để transition chạy đúng từ opacity 0
-      void imgOverlay.offsetWidth;
-      imgOverlay.classList.add("is-active");
-
-      return new Promise(resolve => {
-        const onEnd = (e) => {
-          if (e.propertyName !== "opacity") return;
-          imgOverlay.removeEventListener("transitionend", onEnd);
-          // ảnh mới trở thành lớp dưới, dọn lớp trên
-          imgBase.src = src;
-          imgOverlay.classList.remove("is-active");
-          imgOverlay.removeAttribute("src");
-          resolve();
-        };
-        imgOverlay.addEventListener("transitionend", onEnd);
-      });
-    });
+  let imgOverlay = document.getElementById("viewer-image-overlay");
+  if (!imgOverlay) {
+    imgOverlay = document.createElement("img");
+    imgOverlay.id = "viewer-image-overlay";
+    imgOverlay.className = "viewer-image viewer-image-overlay";
+    imgBase.insertAdjacentElement("afterend", imgOverlay);
   }
 
   function goTo(index) {
     if (index === current || isTransitioning) return;
     isTransitioning = true;
-    const target = "../" + subPages[index];
-    crossfadeTo(target).then(() => {
+    crossfadeTo(imgBase, imgOverlay, subPages[index]).then(() => {
       current = index;
       isTransitioning = false;
     });
   }
 
-  /* Fade lớp phủ (màu nền app) che kín màn hình rồi mới điều hướng ra
-     ngoài trang này -> khi trang index.html bắt đầu load, người dùng
-     đang nhìn thấy màu nền đồng nhất chứ không phải màn trắng chớp. */
+  /* Quay lại menu chính: push app-frame về vị trí 0 (từ trái vào),
+     đẩy viewer-frame ra bên phải. Không location.href, không crossfade
+     ảnh -> không dip to black. */
   function leaveToIndex() {
     if (isTransitioning) return;
     isTransitioning = true;
-    pageOverlay.classList.add("active");
-    const onEnd = (e) => {
-      if (e.propertyName !== "opacity") return;
-      pageOverlay.removeEventListener("transitionend", onEnd);
-      window.location.href = "../index.html";
-    };
-    pageOverlay.addEventListener("transitionend", onEnd);
+    const appFrame = document.querySelector(".app-frame");
+
+    appFrame.classList.remove("push-left");
+    frame.classList.add("push-right");
+
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 500); // khớp thời lượng transition transform trong CSS
   }
 
   function renderHitAreas() {
     // xoá vùng bấm cũ, vẽ lại vì trang cuối cần đổi "next" thành home
-    document.querySelectorAll(".hit-area").forEach(el => el.remove());
+    frame.querySelectorAll(".hit-area").forEach(el => el.remove());
 
     // 3 vùng bấm số bước (nhảy thẳng tới trang tương ứng)
     subPages.forEach((_, i) => {
@@ -137,21 +106,6 @@
     frame.appendChild(nextBtn);
   }
 
-  /* ---- Khởi động: đặt ảnh đầu tiên, chờ load xong rồi fade lớp phủ ra ---- */
-  const firstSrc = "../" + subPages[current];
-  preloadImage(firstSrc).then((im) => {
-    imgBase.src = im.src;
-    // ép reflow rồi fade lớp phủ (che bằng màu nền) biến mất, lộ ảnh ra
-    requestAnimationFrame(() => {
-      pageOverlay.classList.remove("active");
-      const onEnd = (e) => {
-        if (e.propertyName !== "opacity") return;
-        pageOverlay.removeEventListener("transitionend", onEnd);
-        isTransitioning = false;
-      };
-      pageOverlay.addEventListener("transitionend", onEnd);
-    });
-  });
-
+  current = 0;
   renderHitAreas();
-})();
+}

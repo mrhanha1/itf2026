@@ -84,15 +84,29 @@ function handleStageClick(stage, btnEl) {
   // 1) Animation scale up + fade out cho chính button vừa bấm
   btnEl.classList.add("activating");
 
-  // 2) Đồng thời làm mờ dần toàn màn hình để chuyển mượt
-  const overlay = document.getElementById("transition-overlay");
-  overlay.classList.add("active");
+  // 2) Preload ảnh subpage đầu tiên, xong mới push-trượt viewer-frame
+  //    vào và đẩy app-frame ra (không location.href, không dip đen)
+  const firstSrc = stage.subPages[0];
+  const appFrame = document.querySelector(".app-frame");
+  const viewerFrame = document.getElementById("viewer-frame");
+  const viewerBase = document.getElementById("viewer-image");
 
-  // 3) Sau khi animation xong thì điều hướng sang trang tương ứng
   const ANIMATION_DURATION = 550; // khớp với thời lượng keyframes trong CSS
-  setTimeout(() => {
-    window.location.href = stage.pageUrl; // PLACEHOLDER - trang đích lấy từ data.js
-  }, ANIMATION_DURATION);
+  const animationDone = new Promise(resolve => setTimeout(resolve, ANIMATION_DURATION));
+
+  // Chờ cả ảnh preload xong VÀ animation của button chạy đủ thời lượng,
+  // rồi mới bắt đầu push (đảm bảo animation không bị cắt ngang)
+  Promise.all([preloadImage(firstSrc), animationDone]).then(() => {
+    viewerBase.src = firstSrc;
+    viewerFrame.dataset.stage = stage.id;
+    btnEl.classList.remove("activating");
+
+    // push: viewer-frame trượt từ phải vào (0), app-frame trượt sang trái
+    viewerFrame.classList.remove("push-right");
+    appFrame.classList.add("push-left");
+
+    initViewer(stage);
+  });
 }
 
 // ---- GÁN ẢNH NỀN (preload xong mới fade overlay ra, tránh chớp trắng) ----

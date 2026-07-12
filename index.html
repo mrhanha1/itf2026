@@ -8,25 +8,37 @@
 </head>
 <body>
 
-  <div class="app-frame">
+  <div class="push-wrapper">
 
-    <!-- ẢNH NỀN (toàn bộ text/logo do designer đặt cứng trong ảnh này) -->
-    <img id="main-bg" class="app-bg" src="" alt="background">
+    <div class="app-frame">
 
-    <!-- MAIN MENU: 5 BUTTON GIAI ĐOẠN (render bằng JS từ stagesData) -->
-    <main id="stage-menu" class="stage-menu"></main>
+      <!-- ẢNH NỀN (toàn bộ text/logo do designer đặt cứng trong ảnh này) -->
+      <img id="main-bg" class="app-bg" src="" alt="background">
 
-    <!-- 3 NHÃN HÀNG (render bằng JS từ brandsData) -->
-    <div id="brand-row" class="brand-row"></div>
+      <!-- MAIN MENU: 5 BUTTON GIAI ĐOẠN (render bằng JS từ stagesData) -->
+      <main id="stage-menu" class="stage-menu"></main>
+
+      <!-- 3 NHÃN HÀNG (render bằng JS từ brandsData) -->
+      <div id="brand-row" class="brand-row"></div>
+
+    </div>
+
+    <!-- VIEWER FRAME: hiển thị subpage của 1 stage. Mặc định nằm bên
+         phải (push-right), trượt vào (translateX(0)) khi bấm 1 stage,
+         trượt ra lại khi quay về menu chính. -->
+    <div id="viewer-frame" class="viewer-frame push-right">
+      <img id="viewer-image" class="viewer-image" src="" alt="stage content">
+    </div>
 
   </div>
 
-  <!-- LỚP CHUYỂN TRANG (hiệu ứng scale up + fade out)
-       active ngay từ đầu để che kín trong lúc chờ ảnh nền load xong,
-       tránh chớp trắng lúc mới vào trang -->
+  <!-- LỚP CHUYỂN TRANG lúc mới load index.html (fade ảnh nền ra), không
+       liên quan tới push transition giữa main menu và stage -->
   <div id="transition-overlay" class="transition-overlay active"></div>
 
   <script src="data.js"></script>
+  <script src="transition.js"></script>
   <script src="script.js"></script>
+  <script src="pages/page-viewer.js"></script>
 </body>
 </html>
