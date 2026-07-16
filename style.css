@@ -58,6 +58,7 @@ body {
   cursor: pointer;
   overflow: hidden;
   background: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .stage-btn img {
@@ -201,6 +202,7 @@ body {
   border: none;
   cursor: pointer;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hit-step {

@@ -14,56 +14,61 @@ const stagesData = [
   {
     id: "truoc-mang-thai",
     title: "TRƯỚC MANG THAI",
-    image: "images/stage-1-truoc-mang-thai.jpg", // PLACEHOLDER - thay ảnh tại đây
+    image: "images/stage-1-truoc-mang-thai.png", // PLACEHOLDER - thay ảnh tại đây
     pageUrl: "pages/truoc-mang-thai.html", // PLACEHOLDER - trang đích
-    subPages: [ // PLACEHOLDER - 3 ảnh full-page: 1.Mục tiêu 2.Khuyến cáo 3.Giải pháp
-      "images/truoc-mang-thai-1-muc-tieu.jpg",
-      "images/truoc-mang-thai-2-khuyen-cao.jpg",
-      "images/truoc-mang-thai-3-giai-phap.jpg"
+    subPages: [ // PLACEHOLDER - 4 ảnh full-page: 1.Mục tiêu 2.Khuyến cáo 3.Giải pháp 4.Trang mới
+      "images/1.1.jpg",
+      "images/1.2.jpg",
+      "images/1.3.jpg",
+      "images/1.4.jpg"
     ]
   },
   {
     id: "mang-thai",
     title: "MANG THAI",
-    image: "images/stage-2-mang-thai.jpg", // PLACEHOLDER
+    image: "images/stage-2-mang-thai.png", // PLACEHOLDER
     pageUrl: "pages/mang-thai.html", // PLACEHOLDER
     subPages: [ // PLACEHOLDER
-      "images/mang-thai-1-muc-tieu.jpg",
-      "images/mang-thai-2-khuyen-cao.jpg",
-      "images/mang-thai-3-giai-phap.jpg"
+      "images/2.1.jpg",
+      "images/2.2.jpg",
+      "images/2.3.jpg",
+      "images/2.4.jpg"
     ]
   },
   {
     id: "sau-sinh",
     title: "SAU SINH",
-    image: "images/stage-3-sau-sinh.jpg", // PLACEHOLDER
+    image: "images/stage-3-sau-sinh.png", // PLACEHOLDER
     pageUrl: "pages/sau-sinh.html", // PLACEHOLDER
     subPages: [ // PLACEHOLDER
-      "images/sau-sinh-1-muc-tieu.jpg",
-      "images/sau-sinh-2-khuyen-cao.jpg",
-      "images/sau-sinh-3-giai-phap.jpg"
+      "images/3.1.jpg",
+      "images/3.2.jpg",
+      "images/3.3.jpg",
+      "images/3.4.jpg"
     ]
   },
   {
     id: "phau-thuat-phu-khoa",
     title: "PHẪU THUẬT PHỤ KHOA",
-    image: "images/stage-4-phau-thuat-phu-khoa.jpg", // PLACEHOLDER
+    image: "images/stage-4-phau-thuat-phu-khoa.png", // PLACEHOLDER
     pageUrl: "pages/phau-thuat-phu-khoa.html", // PLACEHOLDER
     subPages: [ // PLACEHOLDER
-      "images/phau-thuat-phu-khoa-1-muc-tieu.jpg",
-      "images/phau-thuat-phu-khoa-2-khuyen-cao.jpg",
-      "images/phau-thuat-phu-khoa-3-giai-phap.jpg"
+      "images/4.1.jpg",
+      "images/4.2.jpg",
+      "images/4.3.jpg",
+      "images/4.4.jpg"
     ]
   },
   {
     id: "tien-man-kinh",
     title: "TIỀN MÃN KINH",
-    image: "images/stage-5-tien-man-kinh.jpg", // PLACEHOLDER
+    image: "images/stage-5-tien-man-kinh.png", // PLACEHOLDER
     pageUrl: "pages/tien-man-kinh.html", // PLACEHOLDER
     subPages: [ // PLACEHOLDER
-      "images/tien-man-kinh-1-muc-tieu.jpg",
-      "images/tien-man-kinh-2-khuyen-cao.jpg",
-      "images/tien-man-kinh-3-giai-phap.jpg"
+      "images/5.1.jpg",
+      "images/5.2.jpg",
+      "images/5.3.jpg",
+      "images/5.4.jpg"
     ]
   }
 ];
