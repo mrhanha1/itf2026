@@ -90,8 +90,8 @@ body {
   position: absolute;
   left: 6%;
   width: 88%;
-  bottom: 22%;   /* PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật */
-  height: 9%; /* PLACEHOLDER */
+  bottom: 21%;   /* PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật */
+  height: 15%; /* PLACEHOLDER */
   display: flex;
   align-items: center;
   justify-content: center;
