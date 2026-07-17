@@ -64,7 +64,7 @@ body {
 .stage-btn img {
   width: 90%;
   height: 90%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   border-radius: 20px;
 }
@@ -90,12 +90,12 @@ body {
   position: absolute;
   left: 6%;
   width: 88%;
-  bottom: 21%;   /* PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật */
+  bottom: 19%;   /* PLACEHOLDER - chỉnh lại cho khớp ảnh nền thật */
   height: 13%; /* PLACEHOLDER */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 5px;
   z-index: 2;
   margin: auto;
 }
